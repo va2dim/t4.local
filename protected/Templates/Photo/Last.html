@@ -1,0 +1,19 @@
+{% extends 'Index.html' %}
+
+{% block content %}
+
+    <h1>Hello, world!</h1>
+    <h2>It's {{ title }}</h2>
+
+<p> {{ dravya.name.SA}} | {{ dravya.name.LA}} | {{ dravya.name.RU}} </p>
+<p> {{dravya.BPN_9_56.name.synonyms}}</p>
+<p> {{ dravya.family.LA }} </p>
+    <a href="/photo/{{ PrevDravya }}"> << </a>
+        <img src="{{ asset('/Layouts/assets/images/dravya/atasI.jpg') }}" height="" align="bottom" title="{{ dravya.name.RU }}" hspace="5" >
+    <a href="/photo/{{ NextDravya }}"> >> </a>
+
+<p> {{dravya.AHS_5_61.description.RU}}</p>
+
+
+
+{% endblock %}

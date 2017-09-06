@@ -1,0 +1,10 @@
+{% extends 'Index.html' %}
+
+{% block content %}
+    <img src="{{ asset('/Layouts/assets/herbs_hor.jpg') }}" width="60%" >
+    <h1>Приветствуем {{ app.user.name}} на нашем сайте!</h1>
+    <h2>Последние новости</h2>
+    <div style="border: 1px dotted yellowgreen">
+        <t4:block path="//News/Lasts(newsQty=2)">
+    </div>
+{% endblock %}

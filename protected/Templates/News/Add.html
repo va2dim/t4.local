@@ -1,0 +1,54 @@
+{% extends 'Index.html' %}
+
+{% block content %}
+    <hr>
+
+<style>
+    input[type="file"]::-ms-browse  {
+        border-radius: 0 10px 10px 0; /* Радиус скругления */
+        background: #7cbc0a; /* Цвет фона */
+        color: #fff; /* Цвет текста */
+        border: 1px solid #2ba8ff; /* Параметры рамки */
+        margin-left: 2px; /* Отступ слева */
+        padding: 4px 10px; /* Поля */
+    }
+</style>
+
+    <form action="/News/Add" method="post" enctype="multipart/form-data">
+        <fieldset style="border: 1px dotted green; align:left">
+            <legend>Сохранение(Добавление/Редактирование) новости</legend>
+            <div class="form-group">
+                <label for="__id" class="col-lg-2 control-label">ID</label>
+                <div class="col-lg-10">
+                    <input class="form-control" readonly type="number" id="__id" name="__id" placeholder="ID новости" value="{{ key }}">
+                </div>
+
+                <label for="title" class="col-lg-2 control-label">Заголовок</label>
+                <div class="col-lg-10">
+                    <input class="form-control" type="text" id="title" name="title" placeholder="Краткий заголовок" value="{{ article.title }}">
+                </div>
+
+                <label for="text" class="col-lg-2 control-label">Текст</label>
+                <div class="col-lg-10">
+                    <textarea class="form-control" id="text" name="text">{{ article.text }}</textarea>
+                </div>
+
+                <label for="img" class="col-lg-2 control-label">Картинка</label>
+                <div class="col-lg-10">
+                    <img src="{# asset('/Layouts/assets/images/news/'~article.img) #}">
+                    <input class="form-control" style="" type="file" id="img" accept="image/jpeg,image/png,image/gif" name="img" value="{{ article.img }}" alt="Картинка">
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="reset" class="btn btn-default">Cбросить</button>
+                        <button type="submit" class="btn btn-primary">Создать</button>
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+    </form>
+
+
+{% endblock %}
