@@ -1,0 +1,10 @@
+
+{% for key, article in news %}
+    <article style="width: 300px; float: left; margin: 5px; border:1px dotted orange;">
+        <a href="/news/one/{{ article.__id }}"><h2>{{ article.title }}</h2></a>
+        <p>
+            {{ article.text }} <img height=200 src="{{ asset('/Layouts/assets/images/news/'~article.image) }}">
+            {{ article.date }}
+        </p>
+    </article>
+{% endfor %}

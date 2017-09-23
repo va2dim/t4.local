@@ -1,0 +1,16 @@
+{% extends 'Index.html' %}
+
+{% block content %}
+    <h1>Все новости</h1>
+
+{% for key, article in news %}
+    <article>
+        <a href="/news/one/{{ article.__id }}">{{ key }} - {{ article.title }}</a><br>
+        {{ article.text }} <img height=200 src="{{ asset('/Layouts/assets/images/news/'~article.image) }}">
+        {{ article.date }}
+    </article>
+{% endfor %}
+
+
+
+{% endblock %}

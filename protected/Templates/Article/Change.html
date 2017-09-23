@@ -1,0 +1,74 @@
+{% extends 'Index.html' %}
+
+{% block content %}
+
+<div>
+    <t4:block path="//Article/All">
+</div>
+
+    <hr>
+
+<style>
+    input[type="file"]::-ms-browse  {
+        border-radius: 0 10px 10px 0; /* Радиус скругления */
+        background: #7cbc0a; /* Цвет фона */
+        color: #fff; /* Цвет текста */
+        border: 1px solid #2ba8ff; /* Параметры рамки */
+        margin-left: 2px; /* Отступ слева */
+        padding: 4px 10px; /* Поля */
+    }
+</style>
+
+    <form action="/news/change" method="post" enctype="multipart/form-data">
+        <fieldset">
+            <legend>Сохранение(Добавление/Редактирование) новости</legend>
+            <div class="form-group">
+                <label for="__id" class="col-lg-1 control-label">ID</label>
+                <div class="col-lg-7">
+                    <input class="form-control" readonly type="number" id="__id" name="__id" placeholder="ID новости" value="{{ article.__id }}">
+
+                </div>
+
+                <label for="date" class="col-lg-1 col-lg-offset-1 control-label">Дата</label>
+                <div class="col-lg-2">
+                    <input class="form-control" type="date" id="date" name="date" placeholder="Дата создания/изменения" value="{{ article.date }}">
+                </div>
+
+                <label for="title" class="col-lg-1 control-label">Заголовок</label>
+                <div class="col-lg-11">
+                    <input class="form-control" type="text" id="title" name="title" placeholder="Краткий заголовок" value="{{ article.title }}">
+                </div>
+
+                <label for="text" class="col-lg-1 control-label">Текст</label>
+                <div class="col-lg-11">
+                    <textarea class="form-control" id="text" name="text">{{ article.text }}</textarea>
+                </div>
+
+                <label for="image" class="col-lg-1 control-label">Картинка</label>
+                <div class="col-lg-3">
+                    {% if article.image %}
+                        <img height="100px" src="{{ asset('/Layouts/assets/images/news/'~article.image) }}" alt="{{ asset('/Layouts/assets/images/news/'~article.image) }}">
+                    {% endif %}
+                    <!-- Поле MAX_FILE_SIZE должно быть указано до поля загрузки файла -->
+                    <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+                    <!-- Название элемента input определяет имя в массиве $_FILES -->
+                    {{ article.image }}
+                    <input class="form-control" type="file" id="image" accept="image/jpeg,image/png,image/gif" name="image" value="{{ article.image }}" alt="Картинка">
+                </div>
+
+
+
+
+                <div class="form-group">
+                    <div class="col-lg-11 col-lg-offset-1">
+                        <button type="reset" class="btn btn-default">Cбросить</button>
+                        <button type="submit" class="btn btn-primary">Создать</button>
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+    </form>
+
+
+{% endblock %}

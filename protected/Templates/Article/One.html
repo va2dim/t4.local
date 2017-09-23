@@ -6,7 +6,8 @@
     <article>
         <h2>{{ article.title }}</h2>
         <article>
-            {{ article.text }} <img height=200 src="{{ asset('/Layouts/assets/images/news/'~article.img) }}">
+            {{ article.text }} <img height=200 src="{{ asset('/Layouts/assets/images/news/'~article.image) }}">
         </article>
+        {{ article.date }}
     </article>
 {% endblock %}

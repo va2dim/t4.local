@@ -21,6 +21,9 @@ class Person
             'firstName' => ['type' => 'string'],
             'lastName' => ['type' => 'string'],
             'age' => ['type' => 'int'],
+            'avatarImage' => ['type' => 'string'],
         ]
     ];
+
+
 }

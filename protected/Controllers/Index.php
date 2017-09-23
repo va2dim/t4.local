@@ -14,20 +14,8 @@ class Index
 
     public function actionDefault()
     {
-        $persons = Person::findAll();
 
 
-        $persons->setAge(12);
-        $persons->save();
-
-        var_dump($persons);
-        die;
-/*
-        $conn = $this->app->db->default;
-        $data = $conn->query('SELECT AVG(age) FROM persons')->fetchScalar();
-        var_dump($data);
-        die;
-*/
         $this->data->title = $this->app->config->site->name;
 
         $this->app->assets->publish('/Layouts/assets/');
