@@ -1,0 +1,64 @@
+{% extends 'Admin.html' %}
+
+{% block content %}
+
+<div>
+    <t4:block path="//Admin/All">
+</div>
+
+<hr>
+
+    <form action="/admin/change" method="post" enctype="multipart/form-data">
+        <fieldset">
+            <legend>Сохранение(Добавление/Редактирование) человека/пользователя</legend>
+            <div class="form-group">
+                <label for="__id" class="col-lg-1 control-label">ID</label>
+                <div class="col-lg-11">
+                    <input class="form-control" readonly type="number" id="__id" name="__id" placeholder="ID чела" value="{{ person.__id }}">
+
+                </div>
+
+                <label for="firstName" class="col-lg-1 control-label">Имя</label>
+                <div class="col-lg-11">
+                    <input class="form-control" type="text" id="firstName" name="firstName" placeholder="Имя" value="{{ person.firstName }}">
+                </div>
+
+                <label for="lastName" class="col-lg-1 control-label">Фамилия</label>
+                <div class="col-lg-11">
+                    <input class="form-control" type="text" id="lastName" name="lastName" placeholder="Фамилия" value="{{ person.lastName }}">
+                </div>
+
+                <label for="age" class="col-lg-1 control-label">Возраст</label>
+                <div class="col-lg-11">
+                    <input class="form-control" type="number" id="age" name="age" placeholder="Возраст" value="{{ person.age }}">
+                </div>
+
+
+                <label for="avatarImage" class="col-lg-1 control-label">Аватарка</label>
+                <div class="col-lg-3">
+                    {% if person.avatarImage %}
+                        <img height="100px" src="{{ asset('/Layouts/assets/images/persons/'~person.avatarImage) }}" alt="{{ asset('/Layouts/assets/images/persons/'~person.avatarImage) }}">
+                    {% endif %}
+                    <!-- Поле MAX_FILE_SIZE должно быть указано до поля загрузки файла -->
+                    <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+                    <!-- Название элемента input определяет имя в массиве $_FILES -->
+                    {{ person.avatarImage }}
+                    <input class="form-control" type="file" id="avatarImage" accept="image/jpeg,image/png,image/gif" name="avatarImage" value="{{ person.avatarImage }}" alt="Аватарка">
+                </div>
+
+
+
+
+                <div class="form-group">
+                    <div class="col-lg-11 col-lg-offset-1">
+                        <button type="reset" class="btn btn-default">Cбросить</button>
+                        <button type="submit" class="btn btn-success">Создать</button>
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+    </form>
+
+
+{% endblock %}

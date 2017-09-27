@@ -1,0 +1,20 @@
+
+{% for key, article in news %}
+    <article style="width: 100%;  margin: 5px; border:1px dotted orange;">
+        <h2>
+            <a href="/news/change/{{ article.__id }}#form">
+                {{article.__id~'. '~article.title }}
+                <span class="glyphicon glyphicon-edit"  aria-label="Редактировать"></span>
+            </a>
+            |
+            <a href="/news/delete/{{ article.__id }}#form">
+                <span class="glyphicon glyphicon-remove"  aria-label="Удалить"></span>
+            </a>
+        </h2>
+
+        <p>
+            {{ article.text }} <img height=200 src="{{ asset('/Layouts/assets/images/news/'~article.image) }}">
+            {{ article.date }}
+        </p>
+    </article>
+{% endfor %}

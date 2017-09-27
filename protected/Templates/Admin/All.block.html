@@ -1,0 +1,22 @@
+<table class="table table-striped">
+    <tr>
+        <td>ID</td>
+        <td>Аватарка</td>
+        <td>Имя</td>
+        <td>Фамилия</td>
+        <td>Возраст</td>
+        <td></td>
+    {% for person in persons %}
+    <tr>
+        <td>{{ person.PK}}</td>
+        <td>{{ person.avatarImage}}</td>
+        <td>{{ person.firstName }}</td>
+        <td>{{ person.lastName }}</td>
+        <td>{{ person.age }}</td>
+        <td>
+            <a href="/admin/change?__id={{ person.PK }}" class="btn btn-primary">Редактировать</a>
+            <a href="/admin/delete?__id={{ person.PK }}" class="btn btn-danger">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

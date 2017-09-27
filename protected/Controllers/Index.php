@@ -3,7 +3,10 @@
 namespace App\Controllers;
 
 
+use App\Models\Author;
+use App\Models\Book;
 use App\Models\Person;
+use App\Models\Category;
 use T4\Core\Config;
 use T4\Dbal\Connection;
 use T4\Mvc\Controller;
@@ -16,11 +19,12 @@ class Index
     {
 
 
+/*
         $this->data->title = $this->app->config->site->name;
 
         $this->app->assets->publish('/Layouts/assets/');
         $this->app->assets->publishCssFile('/Layouts/assets/test.css');
-
+*/
 
         //var_dump($this->app->flash->msg);
 

@@ -1,0 +1,10 @@
+{% extends 'Admin.html' %}
+
+{% block content %}
+
+{% for book in books %}
+{{ book.title~' '}}
+{% endfor %}
+
+{% endblock %}
+

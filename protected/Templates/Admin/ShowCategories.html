@@ -1,0 +1,71 @@
+{% extends 'Admin.html' %}
+
+{% block content %}
+
+<div>
+    <h2>Дерево категорий</h2>
+    {% set lvl = 0 %}
+    {% for category in categories %}├
+        {% for i in 0..category.__lvl %}
+      {{'─'}}
+    {% endfor%}
+    {{ category.title~': ' }}
+
+    <span>
+        <t4:block path="//Admin/ShowCategoryBooks(title={{category.title}})">
+        <t4:block path="//Admin/ShowChildCategoriesBooks(title={{category.title}})">
+    </span>
+        <a href="/admin/moveCategoryUp?__id={{ category.__id }}" class="glyphicon glyphicon-arrow-up btn-success"></a>
+        <a href="/admin/moveCategoryDown?__id={{ category.__id }}" class="glyphicon glyphicon-arrow-down btn-default"></a>
+        <a href="/admin/changeCategory?__id={{ category.__id }}" class="glyphicon glyphicon-edit btn-primary"></a>
+        <a href="/admin/deleteCategory?__id={{ category.__id }}"><span class="glyphicon glyphicon-remove btn-danger"></span></a><br>
+    {% set lvl = category.__lvl %}
+    {% endfor %}
+</div>
+
+<hr>
+
+    <form action="/admin/changeCategory" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Сохранение(Добавление/Редактирование) человека/пользователя</legend>
+            <div class="form-group">
+                <label for="__id" class="col-lg-1 control-label">ID</label>
+                <div class="col-lg-11">
+                    <input class="form-control"  type="number" id="__id" name="__id" placeholder="ID родителя" value="">
+                </div>
+
+                <label for="parent" class="col-lg-1 control-label">Заголовок родителя</label>
+                <div class="col-lg-11">
+                    <select class="form-control" type="text" id="parent" name="parent" placeholder="Заголовок родительского эл-та">
+                    {% for category in categories %}
+                        <option onchange="(this.elements['__id'].value = {{ category.__id }})"> {{ category.title }} </option>
+                    {% endfor %}
+                    </select>
+                </div>
+
+                <label for="title" class="col-lg-1 control-label">Заголовок ребенка</label>
+                <div class="col-lg-11">
+                    <input class="form-control" type="text" id="title" name="title" placeholder="Заголовок ребенка" value="{{ category.title }}">
+                </div>
+
+                <label for="newParentTitle" class="col-lg-1 control-label">Новый заголовок родителя</label>
+                <div class="col-lg-11">
+                    <input class="form-control" type="text" id="newParentTitle" name="newParentTitle" placeholder="Новый заголовок родителя" value="">
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-lg-11 col-lg-offset-1">
+                        <button type="reset" class="btn btn-alert">Cбросить</button>
+                        <button type="submit" class="btn btn-primary">Переименовать</button>
+                        <button type="submit" class="btn btn-success">Создать</button>
+                        <a href="/admin/deleteCategory?__id={{ category.__id }}" class="btn _btn-danger">Удалить</a>
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+    </form>
+
+
+{% endblock %}
