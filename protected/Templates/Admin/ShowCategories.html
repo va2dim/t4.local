@@ -6,8 +6,8 @@
     <h2>Дерево категорий</h2>
     {% set lvl = 0 %}
     {% for category in categories %}├
-        {% for i in 0..category.__lvl %}
-      {{'─'}}
+    {% for i in 0..category.__lvl %}
+    {{'─'}}
     {% endfor%}
     {{ category.title~': ' }}
 
@@ -15,14 +15,13 @@
         <t4:block path="//Admin/ShowCategoryBooks(title={{category.title}})">
         <t4:block path="//Admin/ShowChildCategoriesBooks(title={{category.title}})">
     </span>
-        <a href="/admin/moveCategoryUp?__id={{ category.__id }}" class="glyphicon glyphicon-arrow-up btn-success"></a>
-        <a href="/admin/moveCategoryDown?__id={{ category.__id }}" class="glyphicon glyphicon-arrow-down btn-default"></a>
-        <a href="/admin/changeCategory?__id={{ category.__id }}" class="glyphicon glyphicon-edit btn-primary"></a>
-        <a href="/admin/deleteCategory?__id={{ category.__id }}"><span class="glyphicon glyphicon-remove btn-danger"></span></a><br>
+    <a href="/admin/moveCategoryUp?__id={{ category.__id }}" class="glyphicon glyphicon-arrow-up btn-success"></a>
+    <a href="/admin/moveCategoryDown?__id={{ category.__id }}" class="glyphicon glyphicon-arrow-down btn-default"></a>
+    <a href="/admin/showCategories?__id={{ category.__id }}" class="glyphicon glyphicon-edit btn-primary"></a>
+    <a href="/admin/deleteCategory?__id={{ category.__id }}"><span class="glyphicon glyphicon-remove btn-danger"></span></a><br>
     {% set lvl = category.__lvl %}
     {% endfor %}
 </div>
-
 <hr>
 
     <form action="/admin/changeCategory" method="post" enctype="multipart/form-data">
@@ -31,21 +30,24 @@
             <div class="form-group">
                 <label for="__id" class="col-lg-1 control-label">ID</label>
                 <div class="col-lg-11">
-                    <input class="form-control"  type="number" id="__id" name="__id" placeholder="ID родителя" value="">
+                    <input class="form-control"  type="text" id="__id" name="__id" placeholder="ID родителя" readonly value="{{ selectedCategory.__id }} ">
                 </div>
 
                 <label for="parent" class="col-lg-1 control-label">Заголовок родителя</label>
                 <div class="col-lg-11">
                     <select class="form-control" type="text" id="parent" name="parent" placeholder="Заголовок родительского эл-та">
                     {% for category in categories %}
-                        <option onchange="(this.elements['__id'].value = {{ category.__id }})"> {{ category.title }} </option>
+
+                        <option onchange="(this.elements['__id'].value = {{ category.__id }})"
+                                {% if category.title == selectedCategory.title %} selected {% endif %}
+                        > {{ category.title }} </option>
                     {% endfor %}
                     </select>
                 </div>
 
                 <label for="title" class="col-lg-1 control-label">Заголовок ребенка</label>
                 <div class="col-lg-11">
-                    <input class="form-control" type="text" id="title" name="title" placeholder="Заголовок ребенка" value="{{ category.title }}">
+                    <input class="form-control" type="text" id="title" name="title" placeholder="Заголовок ребенка" value="">
                 </div>
 
                 <label for="newParentTitle" class="col-lg-1 control-label">Новый заголовок родителя</label>
@@ -66,6 +68,5 @@
             </div>
         </fieldset>
     </form>
-
 
 {% endblock %}

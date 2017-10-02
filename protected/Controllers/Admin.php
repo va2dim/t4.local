@@ -57,7 +57,10 @@ class Admin
     public function actionShowCategories()
     {
         $this->data->categories = Category::findAllTree();
-        //$this->data->category = $category;
+
+        if (!empty($_GET['__id'])) {
+            $this->data->selectedCategory = Category::findByPK($_GET['__id']);
+        }
     }
 
     /**
@@ -101,6 +104,7 @@ class Admin
         $this->redirect('/admin/showCategories');
     }
 
+
     public function actionChangeCategory()
     {
 
@@ -117,12 +121,6 @@ class Admin
                 var_dump($category);
                 $category->save();
             }
-        } else if (!empty($_GET['__id'])) {
-            $category[] = Category::findByPK($_GET['__id'])->toArray();
-            //$this->redirect('/admin/showCategories(category='.$category.')');
-
-            //var_dump($this->data->category);
-            //die;
         }
 
             //$cats = \App\Models\Category::findAllTree();
