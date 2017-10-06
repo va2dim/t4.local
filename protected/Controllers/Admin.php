@@ -4,12 +4,119 @@ namespace App\Controllers;
 
 
 use App\Models\Category;
+use App\Models\User;
 use T4\Core\Collection;
+use T4\Core\Exception;
+use T4\Core\MultiException;
 use T4\Mvc\Controller;
 
 class Admin
     extends Controller
 {
+
+    public function actionAll() {
+        $this->data->persons = \App\Models\Person::findAll();
+    }
+
+    public function actionShowUsers()
+    {
+        $this->data->users = User::findAll();
+
+        if (!empty($_GET['__id'])) {
+            $this->data->selectedUser = User::findByPK($_GET['__id']);
+        }
+
+        $this->app->assets->publish('/Layouts/assets/');
+        $this->app->assets->publishJsFile('/Layouts/assets/clear_form.js');
+    }
+
+    public function actionChangeUser()
+    {
+
+        var_dump($_POST);
+        if (!empty($_POST)){
+            if (!empty($_POST['__id'])){
+                $user = User::findByPK($_POST['__id']);
+            } else {
+                $user = new User();
+            }
+
+            try{
+                /*
+                $user->fill([
+                    'firstName' => $_POST['firstName'],
+                    'lastName' => $_POST['lastName'],
+                    'email' => $_POST['email'],
+                    'birthday' => $_POST['birthday'],
+                    'password' => $_POST['password'],
+                ]);
+                */
+                $user->fill($this->app->request->post);
+                $user->save();
+                $this->redirect('/admin/showUsers?__id='.$user->__id);
+            } catch (MultiException $e) {
+
+                foreach ($e as $error) {
+                    echo 'Ошибка: ' . $error->getMessage().'<br>';
+                }
+                die;
+                $this->data->errors = $e;
+                //$this->view->assign('errors', $e);
+                //$this->view->errors = $e;
+            }
+
+
+
+
+/*
+            if (!empty($_POST['firstName'])) {
+                try {
+                    $user->firstName = $_POST['firstName']; // only Letters
+                } catch (Exception $e) {
+                    echo 'Error: ' . $e->getMessage();
+                }
+                die;
+            }
+            $user->lastName = $_POST['lastName']; // only Letters
+            if (!empty($_POST['email'])) {
+                try {
+                    $user->email = $_POST['email'];
+                    //var_dump($user->email);
+                } catch (Exception $e) {
+                    echo 'Error: '.$e->getMessage();
+                }
+            } // @
+            $user->avatarImage = $_POST['avatarImage'];
+            if (!empty($_POST['birthday'])) {
+                //try {
+                    $user->birthday = $_POST['birthday']; // correct date
+                    var_dump($user->birthday);
+
+                } catch (Exception $e) {
+                    echo 'Error: '.$e->getMessage();
+                }
+
+            }
+            $user->password = $_POST['password']; // letters + numbers + _/-
+*/
+                        //die;
+
+
+        }
+
+
+
+    }
+
+    public function actionDeleteUser()
+    {
+        if (!empty($_GET['__id'])) {
+            User::findByPK($_GET['__id'])->delete();
+        }
+
+        $this->redirect('/admin/showUsers');
+    }
+
 
     /**
      * Показ книг только из текущей категории
@@ -50,9 +157,7 @@ class Admin
 
     }
 
-    public function actionAll() {
-        $this->data->persons = \App\Models\Person::findAll();
-    }
+
 
     public function actionShowCategories()
     {
