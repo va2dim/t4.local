@@ -6,7 +6,6 @@ namespace App\Controllers;
 use App\Models\Category;
 use App\Models\User;
 use T4\Core\Collection;
-use T4\Core\Exception;
 use T4\Core\MultiException;
 use T4\Mvc\Controller;
 
@@ -20,7 +19,15 @@ class Admin
 
     public function actionShowUsers()
     {
-        $this->data->users = User::findAll();
+        try {
+            $this->data->users = User::findAll();
+        } catch (MultiException $e) {
+            foreach ($e as $error) {
+                echo 'Ошибка: ' . $error->getMessage().'<br>';
+            }
+            die;
+            $this->data->errors = $e;
+        }
 
         if (!empty($_GET['__id'])) {
             $this->data->selectedUser = User::findByPK($_GET['__id']);
@@ -30,8 +37,14 @@ class Admin
         $this->app->assets->publishJsFile('/Layouts/assets/clear_form.js');
     }
 
-    public function actionChangeUser()
+
+    public function actionChangeUser($user)
     {
+        //var_dump($user);
+
+        if (!empty($user)) {
+            $this->data->selectedUser = User::findByPK($user);
+        }
 
         var_dump($_POST);
         if (!empty($_POST)){
@@ -42,28 +55,20 @@ class Admin
             }
 
             try{
-                /*
-                $user->fill([
-                    'firstName' => $_POST['firstName'],
-                    'lastName' => $_POST['lastName'],
-                    'email' => $_POST['email'],
-                    'birthday' => $_POST['birthday'],
-                    'password' => $_POST['password'],
-                ]);
-                */
                 $user->fill($this->app->request->post);
                 $user->save();
-                $this->redirect('/admin/showUsers?__id='.$user->__id);
+                //$this->redirect('/admin/showUsers?__id='.$user->__id);
             } catch (MultiException $e) {
-
+                /*
                 foreach ($e as $error) {
-                    echo 'Ошибка: ' . $error->getMessage().'<br>';
+                    echo 'Ошибка: ' . $error->getMessage().($error->getTrace()[0]['function']).'<br>';
                 }
-                die;
+                */
+
+                //die;
                 $this->data->errors = $e;
-                //$this->view->assign('errors', $e);
-                //$this->view->errors = $e;
             }
+}
 
 
 
@@ -102,7 +107,7 @@ class Admin
                         //die;
 
 
-        }
+
 
 
 

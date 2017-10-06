@@ -86,7 +86,7 @@ class User
 
     protected function validatePassword($value)
     {
-        if (strlen($value)<=3) {
+        if (strlen($value)<3) {
             yield new Exception('Неверный пароль (длина пароля меньше 3 символов)');
         }
 

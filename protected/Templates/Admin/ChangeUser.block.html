@@ -1,0 +1,58 @@
+
+{% for error in errors %}
+    <div class="alert alert-danger">{{ error.getTrace()[0]['function'][8:] ~': '~ error.getMessage() }}</div>
+{% endfor %}
+{# TODO: привязать вывод ошибок к каждому блоку #}
+
+
+<form action="" method="post" enctype="multipart/form-data">
+    <fieldset>
+        <legend>Сохранение(Добавление/Редактирование) человека/пользователя</legend>
+        <div class="form-group">
+            <label for="__id" class="col-lg-1 control-label">ID:</label>
+            <div class="col-lg-11">
+                <input class="form-control"  type="number" id="__id" name="__id" placeholder="ID пользователя" readonly value="{{ selectedUser.__id|e }}">
+            </div>
+
+            <label for="email" class="col-lg-1 control-label">E-mail:</label>
+            <div class="col-lg-11">
+                <input class="form-control" type="text" id="email" name="email" placeholder="E-mail" value="{{ selectedUser.email }}">
+            </div>
+
+            <label for="firstName" class="col-lg-1 control-label">Имя:</label>
+            <div class="col-lg-11">
+                <input class="form-control" type="text" id="firstName" name="firstName" placeholder="Имя" value="{{ selectedUser.firstName }}">
+            </div>
+
+            <label for="lastName" class="col-lg-1 control-label">Фамилия:</label>
+            <div class="col-lg-11">
+                <input class="form-control" type="text" id="lastName" name="lastName" placeholder="Фамилия" value="{{ selectedUser.lastName }}">
+            </div>
+
+            <label for="birthday" class="col-lg-1 control-label">День рождения:</label>
+            <div class="col-lg-11">
+                <input class="form-control" type="date" id="birthday" name="birthday" placeholder="День рождения" value="{{ selectedUser.birthday }}">
+            </div>
+
+            <label for="password" class="col-lg-1 control-label">Пароль:</label>
+            <div class="col-lg-11">
+                <input class="form-control" type="password" id="password" name="password" placeholder="Пароль (не меньше 3 символов)" value="{{ selectedUser.password }}">
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-11 col-lg-offset-1">
+                    <button type="button" class="btn btn-default" onclick="clearForm(this.form, 'number');">Очистить</button>
+                    <button type="reset" class="btn btn-alert">Cбросить</button>
+                    <button type="submit"
+                            {% if selectedUser.__id %}
+                            class="btn btn-primary">Изменить</button>
+                    <a href="/admin/deleteUser?__id={{ selectedUser.__id }}" class="btn btn-danger">Удалить</a>
+                    {% else %}
+                    class="btn btn-success">Создать</button>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </fieldset>
+</form>
